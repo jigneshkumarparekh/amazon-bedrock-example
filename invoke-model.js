@@ -60,7 +60,7 @@ console.log(`Model ID: ${modelId}`);
 try {
   console.log("-".repeat(53));
   const response = await invokeModel(prompt, modelId);
-  typeWriter(`Answer: \n${response.choices[0].message.content}`);
+  typeWriter(`Answer: \n${response.choices[0].message.content}\n`);
 } catch (err) {
   console.log(err);
 }

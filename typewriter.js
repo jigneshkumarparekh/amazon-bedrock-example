@@ -4,7 +4,6 @@
  */
 export function typeWriter(text) {
   text = text + "\n"; // Add a new line character at the end to flush the buffer out.
-  console.log(`--> Total text length: `, text.length);
   let index = 0;
   const interval = setInterval(() => {
     if (index >= text.length) {
