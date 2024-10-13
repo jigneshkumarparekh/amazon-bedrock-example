@@ -1,0 +1,16 @@
+{
+  "name": "amazon-bedrock-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-bedrock": "3.670.0",
+    "@aws-sdk/client-bedrock-runtime": "3.665.0"
+  },
+  "type": "module"
+}
