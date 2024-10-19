@@ -19,7 +19,7 @@ async function invokeModel(prompt, modelId = "ai21.jamba-instruct-v1:0") {
   const payload = {
     messages: [
       {
-        role: "assistant",
+        role: "user",
         content: prompt,
       },
     ],
@@ -45,13 +45,40 @@ async function invokeModel(prompt, modelId = "ai21.jamba-instruct-v1:0") {
 
 const prompt = `
   Context: 
-    Here are the login information for develop environments:
+    Here are the guidelines for JavaScript coding:
 
-    1. Login info for dev1: user-dev1@test.com/dev1@123 
-    2. Login info for dev2: user-dev2@test.com/dev2@123
-    3. Login info for dev3: user-dev3@test.com/dev3@123
+    Formatting and Style
+      Indentation: Use 2 or 4 spaces for indentation (choose one and be consistent). Avoid tabs.
+      Semicolons: Always use semicolons to terminate statements.
+      Line Length: Keep lines under 80-100 characters for readability.
+      Naming: Use descriptive names for variables, functions, and classes. Follow camelCase for variables and functions, and PascalCase for classes.
+      Quotes: Use single quotes for strings unless the string contains a single quote.
+      Comments: Write clear, concise comments to explain the purpose of code blocks and complex logic.
+    
+    Best Practices
+      Use const and let: Prefer const for variables that shouldn't change, and let for variables that can. Avoid var.
+      Arrow Functions: Use arrow functions for concise syntax, especially for short callback functions.
+      Template Literals: Use template literals for string interpolation and multi-line strings.
+      Destructuring: Use destructuring to extract values from objects and arrays.
+      Modules: Use modules to organize code and manage dependencies (e.g., using ES Modules or CommonJS).
+      Strict Mode: Use strict mode ('use strict') to enforce better code practices.
+      Avoid Global Variables: Minimize the use of global variables to prevent naming collisions.
+      Asynchronous Code: Use promises or async/await to handle asynchronous operations in a clean and readable way.
+      Error Handling: Implement proper error handling using try...catch blocks.
+      Code Linting: Use a linter like ESLint to enforce code style and catch potential errors.
+      Testing: Write unit tests to ensure code quality and prevent regressions.
+      
+    New Features (ES2024)
+      Temporal API:
+        Use the Temporal API for advanced date and time manipulation, if available in your environment.
+      Other ES2024 Features:
+        Stay updated with the latest ECMAScript features and use them where appropriate.
+      Important Considerations
+        Accessibility: Write code that is accessible to all users, including those with disabilities.
+        Performance: Optimize code for performance, especially for web applications.
+        Security: Follow security best practices to protect against vulnerabilities.
   
-  Question: Can you predict the login for dev4?
+  Question: Give me some best practices for JavaScript?
 `;
 const modelId = "ai21.jamba-instruct-v1:0";
 console.log(`Prompt: ${prompt}`);

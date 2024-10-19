@@ -13,7 +13,7 @@ export function typeWriter(text) {
 
     typeOnConsole(text.charAt(index));
     index++;
-  }, 50);
+  }, 25);
 }
 
 function typeOnConsole(char) {
