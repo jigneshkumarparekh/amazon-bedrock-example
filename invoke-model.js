@@ -2,9 +2,12 @@ import {
   BedrockRuntimeClient,
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
+import fs from "node:fs/promises";
+import chalk from "chalk";
+import util from "node:util";
 import { typeWriter } from "./typewriter.js";
 
-async function invokeModel(prompt, modelId = "ai21.jamba-instruct-v1:0") {
+async function invokeModel(prompt, modelId) {
   // Create a new Bedrock Runtime client instance.
   const client = new BedrockRuntimeClient({
     region: "us-east-1",
@@ -23,9 +26,9 @@ async function invokeModel(prompt, modelId = "ai21.jamba-instruct-v1:0") {
         content: prompt,
       },
     ],
-    max_tokens: 256,
-    top_p: 0.8,
-    temperature: 0.7,
+    max_tokens: 500,
+    top_p: 0.2,
+    temperature: 0.4,
   };
 
   // Invoke the model with the payload and wait for the response.
@@ -43,51 +46,54 @@ async function invokeModel(prompt, modelId = "ai21.jamba-instruct-v1:0") {
   return responseBody;
 }
 
-const prompt = `
-  Context: 
-    Here are the guidelines for JavaScript coding:
-
-    Formatting and Style
-      Indentation: Use 2 or 4 spaces for indentation (choose one and be consistent). Avoid tabs.
-      Semicolons: Always use semicolons to terminate statements.
-      Line Length: Keep lines under 80-100 characters for readability.
-      Naming: Use descriptive names for variables, functions, and classes. Follow camelCase for variables and functions, and PascalCase for classes.
-      Quotes: Use single quotes for strings unless the string contains a single quote.
-      Comments: Write clear, concise comments to explain the purpose of code blocks and complex logic.
-    
-    Best Practices
-      Use const and let: Prefer const for variables that shouldn't change, and let for variables that can. Avoid var.
-      Arrow Functions: Use arrow functions for concise syntax, especially for short callback functions.
-      Template Literals: Use template literals for string interpolation and multi-line strings.
-      Destructuring: Use destructuring to extract values from objects and arrays.
-      Modules: Use modules to organize code and manage dependencies (e.g., using ES Modules or CommonJS).
-      Strict Mode: Use strict mode ('use strict') to enforce better code practices.
-      Avoid Global Variables: Minimize the use of global variables to prevent naming collisions.
-      Asynchronous Code: Use promises or async/await to handle asynchronous operations in a clean and readable way.
-      Error Handling: Implement proper error handling using try...catch blocks.
-      Code Linting: Use a linter like ESLint to enforce code style and catch potential errors.
-      Testing: Write unit tests to ensure code quality and prevent regressions.
-      
-    New Features (ES2024)
-      Temporal API:
-        Use the Temporal API for advanced date and time manipulation, if available in your environment.
-      Other ES2024 Features:
-        Stay updated with the latest ECMAScript features and use them where appropriate.
-      Important Considerations
-        Accessibility: Write code that is accessible to all users, including those with disabilities.
-        Performance: Optimize code for performance, especially for web applications.
-        Security: Follow security best practices to protect against vulnerabilities.
-  
-  Question: Give me some best practices for JavaScript?
-`;
-const modelId = "ai21.jamba-instruct-v1:0";
-console.log(`Prompt: ${prompt}`);
-console.log(`Model ID: ${modelId}`);
-
-try {
-  console.log("-".repeat(53));
-  const response = await invokeModel(prompt, modelId);
-  typeWriter(`Answer: \n${response.choices[0].message.content}\n`);
-} catch (err) {
-  console.log(err);
+async function readFileContent() {
+  const filePath = "./data/yosemite.txt";
+  const content = await fs.readFile(filePath, "utf8");
+  return content;
 }
+
+async function main() {
+  // Accept the query from user
+  const args = process.argv.slice(2);
+  const options = {
+    query: {
+      type: "string",
+      short: "q",
+    },
+  };
+  const { values } = util.parseArgs({ args, options });
+  const userQuery = values.query;
+  if (!userQuery) {
+    console.log(
+      chalk.red(
+        'Missing input. Please provide "--query". For ex: node index.js --query <queryText>'
+      )
+    );
+    process.exit(0);
+  }
+  console.log(`--> User query:`, userQuery);
+
+  const prompt = `
+    Context: 
+      You're an assitive bot helping me learn about Yosemite National Park. Only answer if question is related to Yosemite national park. Do not answer unrelated questions. 
+  
+      ${await readFileContent()}
+    
+    Question: ${userQuery}
+  `;
+  const modelId = "ai21.jamba-instruct-v1:0";
+  console.log(`Prompt: ${prompt}`);
+  console.log(chalk.redBright(`Model ID: ${modelId}`));
+
+  try {
+    console.log("-".repeat(53));
+    const response = await invokeModel(prompt, modelId);
+    typeWriter(
+      chalk.green(`Answer: \n${response.choices[0].message.content}\n`)
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+main().catch((error) => console.log(chalk.red(`--> ERROR:`, error)));
