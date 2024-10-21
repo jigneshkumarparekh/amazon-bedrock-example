@@ -27,8 +27,8 @@ async function invokeModel(prompt, modelId) {
       },
     ],
     max_tokens: 500,
-    top_p: 0.2,
-    temperature: 0.4,
+    top_p: 0.2, // Probability... Lower the number, higher is the matching probability. For ex: 0.2 => 20% of matching responses.
+    temperature: 0.5, // Choose a lower value to influence the model to select higher-probability outputs.
   };
 
   // Invoke the model with the payload and wait for the response.
@@ -47,7 +47,7 @@ async function invokeModel(prompt, modelId) {
 }
 
 async function readFileContent() {
-  const filePath = "./data/yosemite.txt";
+  const filePath = "./data/yosemite.txt"; // TODO: Make this dynamic.
   const content = await fs.readFile(filePath, "utf8");
   return content;
 }
