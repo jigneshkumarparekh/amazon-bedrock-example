@@ -27,7 +27,7 @@ async function invokeModel(prompt, modelId) {
       },
     ],
     max_tokens: 500,
-    top_p: 0.2, // Probability... Lower the number, higher is the matching probability. For ex: 0.2 => 20% of matching responses.
+    top_p: 0.4, // Probability... Lower the number, higher is the matching probability. For ex: 0.2 => 20% of matching responses.
     temperature: 0.5, // Choose a lower value to influence the model to select higher-probability outputs.
   };
 
@@ -46,8 +46,7 @@ async function invokeModel(prompt, modelId) {
   return responseBody;
 }
 
-async function readFileContent() {
-  const filePath = "./data/yosemite.txt"; // TODO: Make this dynamic.
+async function readFileContent(filePath = "./data/yosemite.txt") {
   const content = await fs.readFile(filePath, "utf8");
   return content;
 }
@@ -60,26 +59,39 @@ async function main() {
       type: "string",
       short: "q",
     },
+    file: {
+      type: "string",
+      short: "f",
+    },
   };
   const { values } = util.parseArgs({ args, options });
-  const userQuery = values.query;
-  if (!userQuery) {
+  const { query, file } = values;
+
+  if (!query) {
     console.log(
       chalk.red(
-        'Missing input. Please provide "--query". For ex: node index.js --query <queryText>'
+        'Missing input. Please provide "--query". For ex: --query "Tell me about things to do in Yosemite"'
       )
     );
     process.exit(0);
   }
-  console.log(`--> User query:`, userQuery);
+
+  if (!file) {
+    console.log(
+      chalk.red(
+        'Missing input. Please provide "--file". For ex: --file "./data/yosemite.txt"'
+      )
+    );
+    process.exit(0);
+  }
 
   const prompt = `
     Context: 
-      You're an assitive bot helping me learn about Yosemite National Park. Only answer if question is related to Yosemite national park. Do not answer unrelated questions. 
+      You're an assitive bot helping me learn about following context. Only answer if question is related to the privided context. Do not answer unrelated questions. 
   
-      ${await readFileContent()}
+      ${await readFileContent(file)}
     
-    Question: ${userQuery}
+    Question: ${query}
   `;
   const modelId = "ai21.jamba-instruct-v1:0";
   console.log(`Prompt: ${prompt}`);
