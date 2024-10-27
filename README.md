@@ -4,7 +4,10 @@ This reporsitory contains an example code of Amazon Bedrock with node.js
 
 ## Pre-requisites:
 
-node v18+
+- node `v18+`
+- AWS Access Key and Secret Key generated and configured in your bash file like `~/.zshrc` or `.bashprofile` with following environement variables:
+  - AWS_ACCESS_KEY_ID: <YOUR_AWS_ACCESS_KEY>
+  - AWS_SECRET_ACCESS_KEY: <YOUR_AWS_SECRET_ACCESS_KEY>
 
 ### Usage:
 
