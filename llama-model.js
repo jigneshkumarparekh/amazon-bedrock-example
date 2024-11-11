@@ -25,10 +25,22 @@ async function invokeModel(prompt, modelId) {
     },
   ];
 
+  // Instructions for the bot.
+  const systemPrompt = [
+    {
+      text: `
+        You're an assitive bot helping me learn about provided context. 
+        Only answer if question is related to the privided context. 
+        Do not answer unrelated questions.
+      `,
+    },
+  ];
+
   // Create a command with the model ID, the message, and a basic configuration.
   const command = new ConverseCommand({
     modelId,
     messages: conversation,
+    system: systemPrompt,
     inferenceConfig: { maxTokens: 512, temperature: 0.5, topP: 0.9 },
   });
 
@@ -85,8 +97,6 @@ async function main() {
   const { query, file } = processArguments();
   const prompt = `
     Context: 
-      You're an assitive bot helping me learn about following context. Only answer if question is related to the privided context. Do not answer unrelated questions. 
-  
       ${await readFileContent(file)}
     
     Question: ${query}
