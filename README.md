@@ -12,7 +12,7 @@ This reporsitory contains an example code of Amazon Bedrock with node.js
 
 ### Usage:
 
-Under the `data` directory, there are files `yosemite.txt` and `dogs.txt which contains information about Yosemite National Park and dogs respectively.
+Under the `data` directory, there are files `yosemite.txt` and `dogs.txt` which contains information about Yosemite National Park and dogs respectively.
 The bot is instructed to answer questions about provided context only and asked not to answer unrelated question.
 
 Here how you can use:

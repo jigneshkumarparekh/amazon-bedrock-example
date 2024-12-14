@@ -1,0 +1,15 @@
+Here are some details about the two different locations and tesla supercharger locations between them:
+
+Location 1: San Ramon, CA. Coordinates: 37.7644° N, 121.9540° W
+Location 2: Los Angeles, CA. Coordinates: 34.0549° N, 118.2426° W
+
+Here are the different tesla supercharger charging locations between San Ramon and Los Angeles in California:
+  1. Patterson,CA: 
+        - Coordinates: 37.584126550330694, -121.18542836406742
+        - Amenities: Restrooms, Food court 
+  2. Coalinga, CA:
+        - Coordinates: 36.50558683048542, -120.16369984033484
+        - Amenities: Restrooms, Food court 
+  3. Bakersfield, CA:
+        - Coordinates: 35.28635640745186, -118.99914904984394
+        - Amenities: Limited amenities
