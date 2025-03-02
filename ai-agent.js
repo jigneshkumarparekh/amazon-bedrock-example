@@ -51,17 +51,6 @@ export const invokeBedrockAgent = async (prompt, sessionId) => {
   }
 };
 
-// Call function if run directly
-import { fileURLToPath } from "node:url";
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { query } = processArguments();
-  const result = await invokeBedrockAgent(
-    query,
-    `Session-${Date.now().toString()}`
-  );
-  console.log(chalk.green(`--> Response from model: ${result}`));
-}
-
 function processArguments() {
   // Accept the query from user
   const args = process.argv.slice(2);
@@ -85,3 +74,11 @@ function processArguments() {
 
   return { query };
 }
+
+// Call function to process the arguments and invoke the agent.
+const { query } = processArguments();
+const result = await invokeBedrockAgent(
+  query,
+  `Session-${Date.now().toString()}`
+);
+console.log(chalk.green(`--> Response from model: ${result}`));
