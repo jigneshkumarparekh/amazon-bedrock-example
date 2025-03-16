@@ -19,7 +19,7 @@ const aiMsg = await llm.invoke([
   ["human", "I love programming."],
 ]);
 
-typeWriter(chalk.green(aiMsg.content));
+await typeWriter(chalk.green(aiMsg.content));
 
 const closingMsg = `--> Done using ${aiMsg.usage_metadata.input_tokens} input tokens and ${aiMsg.usage_metadata.output_tokens} output tokens.`;
 console.log(chalk.green(closingMsg));
